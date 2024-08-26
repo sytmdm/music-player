@@ -1,0 +1,23 @@
+<RCC>
+    <qresource prefix="/">
+        <file>imag/20220726130434_f408d.jpg</file>
+        <file>imag/1.png</file>
+        <file>imag/8.png</file>
+        <file>imag/9.png</file>
+        <file>musicimg/25prve.png</file>
+        <file>musicimg/downLoadBtn.png</file>
+        <file>musicimg/enjiy1.png</file>
+        <file>musicimg/enjoy.png</file>
+        <file>musicimg/next.png</file>
+        <file>musicimg/switchMode.png</file>
+        <file>musicimg/switchMode1.png</file>
+        <file>musicimg/switchMode2.png</file>
+        <file>musicimg/volumeCloseBtn.png</file>
+        <file>musicimg/player.png</file>
+        <file>musicimg/music.png</file>
+        <file>musicimg/volumePoenBtn.png</file>
+        <file>musicimg/playBtn.png</file>
+        <file>musicimg/albumLabel.png</file>
+        <file>musicimg/gost.png</file>
+    </qresource>
+</RCC>
