@@ -1,6 +1,6 @@
 #include "musicitem.h"
 #include "ui_musicitem.h"
-
+#include<QListWidgetItem>
 musicItem::musicItem(QWidget *parent) :
     QMainWindow(parent),
     ui(new Ui::musicItem)
@@ -30,10 +30,16 @@ void musicItem::setMusicTime(const QString &setMusicTime)
 {
     ui->musicTime->setText(setMusicTime);
 }
+
 void musicItem::setSingerName(const QString &setSingerName)
 {
     ui->singerName->setText(setSingerName);
 }
+QString musicItem::getMusicName() const
+{
+    return ui->musicname->text();
+}
+
 musicItem::~musicItem()
 {
 

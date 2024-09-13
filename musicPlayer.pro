@@ -17,8 +17,8 @@ SOURCES += \
     musiclirc.cpp \
     musiclist.cpp \
     musicmenu.cpp \
-    musicplaybackcontrols.cpp \
-    onlineplayer.cpp
+    onlineplayer.cpp \
+    selectmenu.cpp
 
 HEADERS += \
     clientsocket.h \
@@ -28,8 +28,8 @@ HEADERS += \
     musiclirc.h \
     musiclist.h \
     musicmenu.h \
-    musicplaybackcontrols.h \
-    onlineplayer.h
+    onlineplayer.h \
+    selectmenu.h
 
 FORMS += \
     mainwindow.ui \
@@ -37,7 +37,7 @@ FORMS += \
     musiclirc.ui \
     musiclist.ui \
     musicmenu.ui \
-    musicplaybackcontrols.ui
+    selectmenu.ui
 
 TRANSLATIONS += \
     musicPlayer_zh_CN.ts

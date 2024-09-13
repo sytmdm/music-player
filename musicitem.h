@@ -18,6 +18,9 @@ public:
     void setMusicName(const QString &musicName);
     void setMusicTime(const QString &setMusicTime);
     void setSingerName(const QString &setSingerName);
+
+    QString getMusicName() const;
+
 private:
     Ui::musicItem *ui;
 };

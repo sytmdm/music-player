@@ -6,26 +6,31 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>178</width>
-    <height>162</height>
+    <width>982</width>
+    <height>596</height>
    </rect>
   </property>
   <property name="windowTitle">
    <string>MainWindow</string>
   </property>
   <widget class="QWidget" name="centralwidget">
-   <layout class="QGridLayout" name="gridLayout">
-    <item row="0" column="0">
-     <widget class="QListWidget" name="lyricMusicList"/>
-    </item>
-   </layout>
+   <widget class="QListWidget" name="lyricMusicList">
+    <property name="geometry">
+     <rect>
+      <x>290</x>
+      <y>20</y>
+      <width>361</width>
+      <height>421</height>
+     </rect>
+    </property>
+   </widget>
   </widget>
   <widget class="QMenuBar" name="menubar">
    <property name="geometry">
     <rect>
      <x>0</x>
      <y>0</y>
-     <width>178</width>
+     <width>982</width>
      <height>26</height>
     </rect>
    </property>

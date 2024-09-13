@@ -4,7 +4,7 @@
 #include <QMainWindow>
 #include"musicitem.h"
 #include<QWidget>
-#include"musicplaybackcontrols.h"
+#include <QDebug>
 class musicPlaybackControls;
 namespace Ui {
 class musicList;
@@ -26,7 +26,16 @@ public:
     int getMusicCount();
     int getMusicRow();
     void setMusicRow(int nextRow);
+    QString millTimeToMinuteTimeStr(qint64 millSeconds);
+    void insertSongItem(musicItem * item);
     QString getMusciSongName();
+
+    //获取时间
+    int musicGetTotalTime(const QString & filepath);
+private:
+    /* 解析时间 */
+    int parseTime(const QString & time);
+    qint64 getMusicDuration(const QString &filePath);
 private:
     musicItem *item1;
     /* 当前播放音乐在歌单里面是哪一行 */
