@@ -37,7 +37,7 @@ musicMenu::musicMenu(clientSocket *m_clientInfo, QWidget *parent) : QMainWindow(
     setAlbumPic(":/image/8.png");
 
     /* 初始化文件路径 */
-    m_musicPath = "D:\\qtObject\\music-player\\music\\";
+    m_musicPath = ":/music/";
 
     connect(ui->prevBtn, &QPushButton::clicked, this, &musicMenu::handlePrevSlot);
     connect(ui->playBtn, &QPushButton::clicked, this, &musicMenu::handlePlaySlot);

@@ -12,7 +12,7 @@ onLinePlayer::onLinePlayer(QObject *parent) : QObject(parent)
     player = new QMediaPlayer(this);
 
     connect(player, &QMediaPlayer::positionChanged, this, &onLinePlayer::testSlot);
-    QString musicPath = "D:\\qtObject\\music-player\\music\\花海.mp3";
+    QString musicPath = ":/music/花海.mp3";
     /* 音乐路径 */
     QFileInfo checkInfo(musicPath);
     if (checkInfo.exists() == false)

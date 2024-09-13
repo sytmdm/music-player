@@ -16,7 +16,7 @@ musicList::musicList(QWidget *parent) : QWidget(parent),
     ui->setupUi(this);
 
     /* 初始化文件路径 */
-    m_musicPath = "D:\\qtObject\\music-player\\music";
+    m_musicPath = ":/music/";
     handleItemInit(m_musicPath);
 }
 
