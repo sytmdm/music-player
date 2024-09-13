@@ -1,23 +1,22 @@
 #include "musiclist.h"
 #include "ui_musiclist.h"
-#include<QMessageBox>
-#include<QFileInfoList>
-#include"musicitem.h"
-#include<QDir>
-#include<QString>
-#include<QDebug>
+#include <QMessageBox>
+#include <QFileInfoList>
+#include "musicitem.h"
+#include <QDir>
+#include <QString>
+#include <QDebug>
 #include <QMediaPlayer>
 #include <QMediaMetaData>
-musicList::musicList(QWidget *parent) :
-    QWidget(parent),
-    m_currentSongRow(0),
-    m_playBackControls(nullptr),
-    ui(new Ui::musicList)
+musicList::musicList(QWidget *parent) : QWidget(parent),
+                                        m_currentSongRow(0),
+                                        m_playBackControls(nullptr),
+                                        ui(new Ui::musicList)
 {
     ui->setupUi(this);
 
     /* 初始化文件路径 */
-    m_musicPath = "D:\\qtObject\\musicPlayer - 2\\music";
+    m_musicPath = "D:\\qtObject\\music-player\\music";
     handleItemInit(m_musicPath);
 }
 
@@ -25,19 +24,20 @@ QString musicList::getMusciSongName()
 {
 
     QListWidgetItem *listItem = ui->m_musicList->item(getMusicRow());
-    if (listItem) {
-        item1 = qobject_cast<musicItem*>(ui->m_musicList->itemWidget(listItem));
-        if (item1) {
+    if (listItem)
+    {
+        item1 = qobject_cast<musicItem *>(ui->m_musicList->itemWidget(listItem));
+        if (item1)
+        {
             return item1->getMusicName();
         }
     }
     return QString();
-
 }
 void musicList::setMusicRow(int nextRow)
 {
     ui->m_musicList->setCurrentRow(nextRow);
-    qDebug()<<"nextRow:"<<nextRow<<endl;
+    qDebug() << "nextRow:" << nextRow << endl;
 }
 int musicList::getMusicCount()
 {
@@ -80,42 +80,42 @@ void musicList::handleItemInit(const QString &filePath)
         }
     }
 #endif
-        QDir rootDir(filePath);
+    QDir rootDir(filePath);
 
-        // 获取所有艺术家的文件夹
-        QFileInfoList artistFolders = rootDir.entryInfoList(QDir::Dirs | QDir::NoDotAndDotDot);
+    // 获取所有艺术家的文件夹
+    QFileInfoList artistFolders = rootDir.entryInfoList(QDir::Dirs | QDir::NoDotAndDotDot);
 
-        // 遍历每个艺术家的文件夹
-        foreach (const QFileInfo &artistFolderInfo, artistFolders) {
-            QString artistName = artistFolderInfo.fileName();  // 艺术家名 = 文件夹名
+    // 遍历每个艺术家的文件夹
+    foreach (const QFileInfo &artistFolderInfo, artistFolders)
+    {
+        QString artistName = artistFolderInfo.fileName(); // 艺术家名 = 文件夹名
 
-            // 获取该文件夹中的所有音乐文件
-            QDir artistDir(artistFolderInfo.absoluteFilePath());
-            QStringList musicFiles = artistDir.entryList(QStringList() << "*.mp3" << "*.wav" << "*.flac", QDir::Files);
+        // 获取该文件夹中的所有音乐文件
+        QDir artistDir(artistFolderInfo.absoluteFilePath());
+        QStringList musicFiles = artistDir.entryList(QStringList() << "*.mp3" << "*.wav" << "*.flac", QDir::Files);
 
-            foreach (const QString &musicFile, musicFiles) {
-                QString filePath = artistDir.absoluteFilePath(musicFile);
-                qint64 duration = getMusicDuration(filePath);
+        foreach (const QString &musicFile, musicFiles)
+        {
+            QString filePath = artistDir.absoluteFilePath(musicFile);
+            qint64 duration = getMusicDuration(filePath);
 
-                qDebug() << "absoluteFilePath:" << filePath << endl;
-                // 获取文件名（不包括扩展名）
-                QFileInfo fileIf(filePath);
+            qDebug() << "absoluteFilePath:" << filePath << endl;
+            // 获取文件名（不包括扩展名）
+            QFileInfo fileIf(filePath);
 
-                musicItem * specialItem = new musicItem();
-                specialItem->setMusicName(fileIf.completeBaseName());
-                specialItem->setSingerName(artistName);
-                specialItem->setMusicTime(millTimeToMinuteTimeStr(duration));
-                insertSongItem(specialItem);
+            musicItem *specialItem = new musicItem();
+            specialItem->setMusicName(fileIf.completeBaseName());
+            specialItem->setSingerName(artistName);
+            specialItem->setMusicTime(millTimeToMinuteTimeStr(duration));
+            insertSongItem(specialItem);
 
-
-                /* 歌单匹配列表 */
-                filePath.push_back(fileIf.completeBaseName());
-            }
+            /* 歌单匹配列表 */
+            filePath.push_back(fileIf.completeBaseName());
         }
-
+    }
 }
 /* 添加歌单 */
-void musicList::insertSongItem(musicItem * item)
+void musicList::insertSongItem(musicItem *item)
 {
     // 创建一个QListWidgetItem对象
     QListWidgetItem *listItem = new QListWidgetItem(ui->m_musicList);
@@ -136,11 +136,11 @@ qint64 musicList::getMusicDuration(const QString &filePath)
     player->setMedia(QUrl::fromLocalFile(filePath));
 
     QEventLoop loop;
-    QObject::connect(player, &QMediaPlayer::mediaStatusChanged, &loop, [&](QMediaPlayer::MediaStatus status) {
+    QObject::connect(player, &QMediaPlayer::mediaStatusChanged, &loop, [&](QMediaPlayer::MediaStatus status)
+                     {
         if (status == QMediaPlayer::LoadedMedia) {
             loop.quit();
-        }
-    });
+        } });
     loop.exec();
 
     qint64 duration = player->duration();
@@ -158,9 +158,9 @@ QString musicList::millTimeToMinuteTimeStr(qint64 millSeconds)
 
     return currentTime;
 }
-//int musicList::musicGetTotalTime(const QString & filepath)
+// int musicList::musicGetTotalTime(const QString & filepath)
 //{
-//    QFile file(filepath);
+//     QFile file(filepath);
 
 //    if (!file.open(QIODevice::ReadOnly)) {
 //        qDebug() << "Failed to open file:" << filepath;
@@ -194,13 +194,10 @@ void musicList::handleItemClicked()
     m_currentSongRow = ui->m_musicList->currentRow();
     QString songName = ui->m_musicList->currentItem()->text();
     // 根据行号播放对应的音乐文件
-    //m_playBackControls->startAppointMusic();
+    // m_playBackControls->startAppointMusic();
 }
-
 
 musicList::~musicList()
 {
     delete ui;
-
-
 }

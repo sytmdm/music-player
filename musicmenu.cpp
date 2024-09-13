@@ -13,18 +13,17 @@
 #include <QSlider>
 #include <QFile>
 #include <string.h>
-#include<QStringList>//歌曲清单
-musicMenu::musicMenu(clientSocket *m_clientInfo,QWidget *parent) :
-    QMainWindow(parent),
-    ui(new Ui::musicMenu),
-    m_player(new QMediaPlayer(this)),
-    m_isPlay(false),
-    m_currentPlayMode(ORDER_MODE),
-    m_backupLastSongRow(0),
-    m_currentSongRow(0),
-    m_timer(new QTimer(this)),
-    m_complete(new QCompleter(this)),
-    m_clientInfo(m_clientInfo)
+#include <QStringList> //歌曲清单
+musicMenu::musicMenu(clientSocket *m_clientInfo, QWidget *parent) : QMainWindow(parent),
+                                                                    ui(new Ui::musicMenu),
+                                                                    m_player(new QMediaPlayer(this)),
+                                                                    m_isPlay(false),
+                                                                    m_currentPlayMode(ORDER_MODE),
+                                                                    m_backupLastSongRow(0),
+                                                                    m_currentSongRow(0),
+                                                                    m_timer(new QTimer(this)),
+                                                                    m_complete(new QCompleter(this)),
+                                                                    m_clientInfo(m_clientInfo)
 {
     ui->setupUi(this);
 
@@ -38,7 +37,7 @@ musicMenu::musicMenu(clientSocket *m_clientInfo,QWidget *parent) :
     setAlbumPic(":/image/8.png");
 
     /* 初始化文件路径 */
-    m_musicPath = "D:\\qtObject\\musicPlayer\\music\\";
+    m_musicPath = "D:\\qtObject\\music-player\\music\\";
 
     connect(ui->prevBtn, &QPushButton::clicked, this, &musicMenu::handlePrevSlot);
     connect(ui->playBtn, &QPushButton::clicked, this, &musicMenu::handlePlaySlot);
@@ -52,8 +51,8 @@ musicMenu::musicMenu(clientSocket *m_clientInfo,QWidget *parent) :
     ui->m_musicList->setMusicRow(m_currentSongRow);
     m_backupExitMusic = "七里香.mp3";
     m_player->setMedia(QUrl::fromLocalFile(m_musicPath + m_backupExitMusic));
-//    QString m_backupExitMusic = "七里香.lrc";
-//    loadAppointLyricPath(m_musicPath + m_backupExitMusic);
+    //    QString m_backupExitMusic = "七里香.lrc";
+    //    loadAppointLyricPath(m_musicPath + m_backupExitMusic);
 
     /* 信号和槽 */
     connect(m_player, &QMediaPlayer::durationChanged, this, &musicMenu::handleDurationSlot);
@@ -63,7 +62,7 @@ musicMenu::musicMenu(clientSocket *m_clientInfo,QWidget *parent) :
     /* 定时器 */
     m_timer->setInterval(500);
     connect(m_timer, &QTimer::timeout, this, &musicMenu::handleTimeoutSlot);
-    //设置占位符
+    // 设置占位符
     ui->searchMusic->setPlaceholderText("搜索音乐");
     QStringList songList;
     songList.push_back("七里香");
@@ -74,18 +73,17 @@ musicMenu::musicMenu(clientSocket *m_clientInfo,QWidget *parent) :
     songList.push_back("花花花");
     songList.push_back("花千骨");
 
-    m_complete=new QCompleter(songList,this);
-    //弹出匹配项
+    m_complete = new QCompleter(songList, this);
+    // 弹出匹配项
     m_complete->setCompletionMode(QCompleter::PopupCompletion);
-    //将补全器设置到搜索框
+    // 将补全器设置到搜索框
     ui->searchMusic->setCompleter(m_complete);
 }
-//关闭实现
+// 关闭实现
 void musicMenu::closeEvent(QCloseEvent *event)
 {
-    QMessageBox::information(this,"关闭","关闭窗口");
-    //todo... 记录数据
-
+    QMessageBox::information(this, "关闭", "关闭窗口");
+    // todo... 记录数据
 }
 /* 音乐状态改变 */
 void musicMenu::handleStateChangeSlot()
@@ -100,11 +98,11 @@ void musicMenu::handleStateChangeSlot()
 /* 处理定时器超时 */
 void musicMenu::handleTimeoutSlot()
 {
-//    qDebug() << "handleTimeoutSlot" << endl;
+    //    qDebug() << "handleTimeoutSlot" << endl;
 
     /* 获取当前歌曲的位置 */
     int currentPos = m_player->position();
-//    qDebug() << "currentPos:" << currentPos << endl;
+    //    qDebug() << "currentPos:" << currentPos << endl;
     for (auto iter = m_lyricInfo.begin(); iter != m_lyricInfo.end(); iter++)
     {
         int prevPos = iter.key();
@@ -118,32 +116,31 @@ void musicMenu::handleTimeoutSlot()
     }
 }
 
-
 /* 解析时间 */
-int musicMenu::parseTime(const QString & time)
+int musicMenu::parseTime(const QString &time)
 {
     int minutes = time.split(":")[0].toUInt();
     int seconds = time.split(":")[1].split(".")[0].toUInt();
     int millsecond = time.split(".")[1].toUInt();
 
-//    qDebug() << "minutes:" << minutes << "seconds:" << seconds << "millsecond:" << millsecond << endl;
+    //    qDebug() << "minutes:" << minutes << "seconds:" << seconds << "millsecond:" << millsecond << endl;
 
     int totalMills = minutes * 60 * 1000 + seconds * 1000 + millsecond;
     return totalMills;
 }
 
 /* 加载歌词 */
-void musicMenu::loadAppointLyricPath(const QString & filepath)
+void musicMenu::loadAppointLyricPath(const QString &filepath)
 {
     QFile file(filepath);
-qDebug() << "filepath:" << filepath << endl;
+    qDebug() << "filepath:" << filepath << endl;
     if (file.open(QIODevice::ReadOnly) == false)
     {
         QMessageBox::warning(this, "歌词文件", "歌词文件不存在");
         return;
     }
 
-    char buffer[128] = { 0 };
+    char buffer[128] = {0};
 
     while (file.atEnd() != true)
     {
@@ -176,7 +173,6 @@ void musicMenu::handlePositionSlot(qint64 position)
     ui->processBar->setValue(position);
 }
 
-
 /* 处理进度条长度 */
 void musicMenu::handleDurationSlot(qint64 duration)
 {
@@ -193,11 +189,10 @@ void musicMenu::handleDurationSlot(qint64 duration)
     ui->processBar->setRange(0, duration);
 }
 
-
 ///* 加载指定音乐🎵路径 */
-//void musicMenu::loadAppointMusicPath(const QString & filepath)
+// void musicMenu::loadAppointMusicPath(const QString & filepath)
 //{
-//    QDir dir(filepath);
+//     QDir dir(filepath);
 
 //    if (dir.exists() == false)
 //    {
@@ -217,7 +212,6 @@ void musicMenu::handleDurationSlot(qint64 duration)
 //    }
 //}
 
-
 void musicMenu::handlePrevSlot()
 {
     qDebug() << "handlePrevSlot()" << endl;
@@ -229,15 +223,15 @@ void musicMenu::handlePrevSlot()
     int prevRow = m_backupLastSongRow;
 
     int nextRow = 0;
-    if (m_currentPlayMode == ORDER_MODE)            /* 顺序播放 */
+    if (m_currentPlayMode == ORDER_MODE) /* 顺序播放 */
     {
         nextRow = (currentRow - 1 + ui->m_musicList->getMusicCount()) % ui->m_musicList->getMusicCount();
     }
-    else if (m_currentPlayMode == CYCLE_MODE)       /* 循环播放 */
+    else if (m_currentPlayMode == CYCLE_MODE) /* 循环播放 */
     {
         nextRow = currentRow;
     }
-    else if (m_currentPlayMode == RANDOM_MODE)      /* 随机播放 */
+    else if (m_currentPlayMode == RANDOM_MODE) /* 随机播放 */
     {
         nextRow = prevRow;
     }
@@ -301,15 +295,15 @@ void musicMenu::handleNextSlot()
     m_backupLastSongRow = currentRow;
 
     int nextRow = 0;
-    if (m_currentPlayMode == ORDER_MODE)            /* 顺序播放 */
+    if (m_currentPlayMode == ORDER_MODE) /* 顺序播放 */
     {
         nextRow = (currentRow + 1) % ui->m_musicList->getMusicCount();
     }
-    else if (m_currentPlayMode == CYCLE_MODE)       /* 循环播放 */
+    else if (m_currentPlayMode == CYCLE_MODE) /* 循环播放 */
     {
         nextRow = currentRow;
     }
-    else if (m_currentPlayMode == RANDOM_MODE)      /* 随机播放 */
+    else if (m_currentPlayMode == RANDOM_MODE) /* 随机播放 */
     {
         do
         {
@@ -326,15 +320,14 @@ void musicMenu::startAppointMusic()
 {
     QString songName = ui->m_musicList->getMusciSongName();
 
-    qDebug() << "songName:"<< songName << endl;
+    qDebug() << "songName:" << songName << endl;
 
     /* 加载音乐 */
     QString absPathname = m_musicPath + songName + ".mp3";
 
     m_player->setMedia(QUrl::fromLocalFile(absPathname));
-    //加载歌词
-    loadAppointLyricPath(m_musicPath + songName+".lrc");
-
+    // 加载歌词
+    loadAppointLyricPath(m_musicPath + songName + ".lrc");
 
     /* 播放音乐 */
     handlePlaySlot();
@@ -362,18 +355,16 @@ void musicMenu::handleEnjoySlot()
     qDebug() << "handleEnjoySlot()" << endl;
 }
 
-
-void musicMenu::setAlbumPic(const QPixmap & pixmap)
+void musicMenu::setAlbumPic(const QPixmap &pixmap)
 {
     ui->albumLabel->setPixmap(pixmap.scaled(ui->albumLabel->width(), ui->albumLabel->height(), Qt::KeepAspectRatio, Qt::SmoothTransformation));
 }
 
-void musicMenu::setAlbumPic(const QString & picfilename)
+void musicMenu::setAlbumPic(const QString &picfilename)
 {
     QPixmap headPic(picfilename);
     setAlbumPic(headPic);
 }
-
 
 /* 设置初始的按钮图标 */
 void musicMenu::setInitButtonIcon()
